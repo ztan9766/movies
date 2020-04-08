@@ -2,7 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/mine/mine",
-    "pages/movieList/movieList",
+    "pages/movie/list/list",
     "pages/movie/detail/detail",
     "pages/comment/list/list",
     "pages/comment/detail/detail",
@@ -15,6 +15,9 @@
     "navigationBarBackgroundColor": "#F6F6F6",
     "navigationBarTitleText": "看电影",
     "navigationBarTextStyle": "black"
+  },
+  "useExtendedLib": {
+    "weui": true
   },
   "sitemapLocation": "sitemap.json",
   "style": "v2"
