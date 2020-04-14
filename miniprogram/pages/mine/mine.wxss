@@ -1,1 +1,28 @@
 /* miniprogram/pages/mine/mine.wxss */
+.container {
+  padding-bottom: 104rpx;
+}
+.comment {
+  padding: 30rpx;
+  display: flex;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+.cover {
+  margin-right: 10rpx;
+}
+.cover image{
+  width: 230rpx;
+  height: 320rpx;
+}
+.user image {
+  width: 100rpx;
+  height: 100rpx;
+}
+.user {
+  display: flex;
+  align-items: center;
+}
+.radio {
+  margin-right: 20rpx;
+}

@@ -1,1 +1,40 @@
 /**app.wxss**/
+page {
+  background: #f8f8f8;
+  padding: 26rpx;
+  width: 698rpx;
+  height: 1040rpx;
+}
+
+.footer {
+  display: flex;
+  width: 100%;
+  text-align: center;
+  background: #fff;
+  border-top: 1px solid #e3e3e3;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.footer-item {
+  width: 374rpx;
+  padding: 15px 0;
+  border-right: 1px solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.footer-item:last-child {
+  border-right: 0;
+}
+
+.footer-main {
+  width: 750rpx;
+  padding: 15px 0;
+}
+
+.title {
+  font-size: 38rpx;
+  line-height: 44rpx;
+  padding: 20rpx 0;
+}

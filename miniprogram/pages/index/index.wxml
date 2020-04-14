@@ -2,13 +2,16 @@
 <view class="container">
 	<view class="body">
 		<view class="recommandation">
-      <view class="cover">
-        <image mode="aspectFill" src="{{recommandation.src}}"></image>
-      </view>
-      <view class="title">
-       {{ recommandation.title }}
-      </view>
-      <view class="detail"></view>
+			<view class="cover">
+				<image mode="aspectFill" bindtap="handleTapCover" src="{{recommandation.movie[0].image}}"></image>
+			</view>
+			<view class="title">
+				{{ recommandation.movie[0].title }}
+			</view>
+			<view class="detail" bindtap="handleTapComment">
+				<image mode="aspectFill" src="{{recommandation.user[0].avatar || avatar}}"></image>
+				{{ recommandation.user[0].name }}给你推荐了部电影
+			</view>
 		</view>
 	</view>
 	<view class="footer">

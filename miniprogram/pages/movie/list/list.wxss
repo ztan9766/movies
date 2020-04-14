@@ -1,1 +1,15 @@
 /* miniprogram/pages/movieList/movieList.wxss */
+.movie {
+  margin-bottom: 30rpx;
+  display: flex;
+  align-items: center;
+  padding: 10rpx;
+  background: #fff;
+}
+.cover image{
+  width: 230rpx;
+  height: 320rpx;
+}
+.cover {
+  margin-right: 20rpx;
+}

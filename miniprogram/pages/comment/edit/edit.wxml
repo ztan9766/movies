@@ -1,2 +1,27 @@
 <!--miniprogram/pages/comment/edit/edit.wxml-->
-<text>miniprogram/pages/comment/edit/edit.wxml</text>
+<view class="container">
+	<view class="body">
+		<view class="cover">
+			<image mode="aspectFill" src="{{movie.image}}"></image>
+		</view>
+		<view class="title">{{ movie.title }}</view>
+		<view class="action">
+			<form bindsubmit="bindFormSubmit">
+				<view class="text" wx:if="{{ type === '0'}}">
+					<textarea value="{{ textValue }}" placeholder="评论" name="textarea" />
+					</view>
+        <view class="audio" wx:if="{{type === '1'}}">
+          <view wx:if="{{ tempPath && tempPath !== '' }}">
+            <mp-icon wx:if="{{ isPlay }}" bindtap="pause" icon="pause" size="{{24}}"></mp-icon>
+            <mp-icon wx:else icon="play" bindtap="play" size="{{24}}"></mp-icon>{{ recordTimer }}s 语音评论
+          </view>
+          <view>
+            <button wx:if="{{ isRecord }}" bindtap="handleStop">已录制{{ recordTimer }} s，点击停止</button>
+            <button wx:else bindtap="handleRecord"><mp-icon icon="mike" size="{{24}}"></mp-icon>点击录音</button>
+          </view>
+        </view>
+        <button type="primary" form-type="submit">完成</button>
+      </form>
+    </view>
+	</view>
+</view>

@@ -1,1 +1,21 @@
 /* miniprogram/pages/comment/list/list.wxss */
+.container {
+  padding-bottom: 104rpx;
+}
+
+.comment {
+  background: #fff;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+}
+
+.user image {
+  width: 100rpx;
+  height: 100rpx;
+  margin-right: 10rpx;
+}

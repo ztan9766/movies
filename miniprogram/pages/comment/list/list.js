@@ -1,66 +1,88 @@
 // miniprogram/pages/comment/list/list.js
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    current: 1,
+    movieId: '',
+    list: [],
+    avatar: '../../../static/user-unlogin.png',
+    playingIndex: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.loadData(options.movieId)
+    this.setData({
+      movieId: options.movieId
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  onShow() {
+    this.innerAudioContext = wx.createInnerAudioContext()
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
+  onHide() {
+    this.innerAudioContext.destroy()
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    this.setData({
+      current: 1
+    })
+    this.loadData(this.data.movieId)
+  },
+
+  loadData(movieId) {
+    wx.cloud.callFunction({
+        name: 'comment',
+        data: {
+          type: 1,
+          movieId,
+          pageSize: 10,
+          current: this.data.current
+        },
+      })
+      .then(res => {
+        const list = this.data.list
+        this.setData({
+          list: list.concat(res.result.list)
+        })
+      })
+      .catch(console.error)
+  },
+
+  play(e) {
+    const index = e.target.dataset.index
+    const item = this.data.list[index]
+    if (this.innerAudioContext.src !== item.src) {
+      this.innerAudioContext.src = item.src
+    }
+    this.innerAudioContext.play()
+    this.setData({
+      playingIndex: index
+    })
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
+  pause() {
+    this.innerAudioContext.pause()
+    this.setData({
+      playingIndex: ''
+    })
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  backHome() {
+    wx.navigateTo({
+      url: '/pages/index/index',
+    })
   }
 })

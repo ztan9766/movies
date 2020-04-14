@@ -1,1 +1,15 @@
 /* miniprogram/pages/comment/edit/edit.wxss */
+.body {
+  background: #fff;
+  padding: 24rpx 60rpx;
+  margin-top: 100rpx;
+  text-align: center;
+}
+.cover image {
+  width: 320rpx;
+  height: 480rpx;
+  margin-top: -200rpx;
+}
+.audio, .text {
+  margin-bottom: 30rpx;
+}

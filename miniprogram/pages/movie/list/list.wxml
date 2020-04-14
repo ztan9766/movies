@@ -1,2 +1,14 @@
 <!--miniprogram/pages/movieList/movieList.wxml-->
-<text>miniprogram/pages/movieList/movieList.wxml</text>
+<view class="container">
+	<block wx:for="{{list}}" wx:key="_id">
+		<view class="movie" id="{{item._id}}" bindtap="handleDetail">
+			<view class="cover">
+				<image mode="aspectFill" src="{{item.image}}"></image>
+			</view>
+			<view class="info">
+				<view class="title">{{ item.title }}</view>
+				<view class="type">{{ item.type }}</view>
+			</view>
+		</view>
+	</block>
+</view>

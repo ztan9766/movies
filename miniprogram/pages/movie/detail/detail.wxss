@@ -1,1 +1,15 @@
 /* miniprogram/pages/movie/detail/detail.wxss */
+.body {
+  background: #fff;
+  padding: 24rpx 60rpx;
+  margin-top: 100rpx;
+  text-align: center;
+}
+.cover image {
+  width: 320rpx;
+  height: 480rpx;
+  margin-top: -200rpx;
+}
+.action {
+  margin-top: 30rpx;
+}

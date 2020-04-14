@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "mp-actionSheet": "../../components/actionsheet/actionsheet"
+  },
+  "navigationBarTitleText": "影评详情"
 }

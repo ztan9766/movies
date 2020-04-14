@@ -1,2 +1,26 @@
 <!--miniprogram/pages/comment/detail/detail.wxml-->
-<text>miniprogram/pages/comment/detail/detail.wxml</text>
+<view class="container">
+	<view class="body">
+		<view class="cover">
+			<image mode="aspectFill" src="{{comment.movie[0].image}}"></image>
+		</view>
+		<view class="title">{{ comment.movie[0].title }}</view>
+		<view class="user">
+			<image mode="aspectFill" src="{{comment.user[0].avatar || avatar}}"></image><text>{{comment.user[0].name}}的影评</text>
+		</view>
+		<view class="action">
+			<view class="text" wx:if="{{ comment.type === '0'}}">
+				<view><text>{{ comment.description}}</text></view>
+			</view>
+			<view class="audio" wx:if="{{ comment.type === '1'}}">
+				<mp-icon wx:if="{{ isPlay }}" bindtap="pause" icon="pause" size="{{24}}"></mp-icon>
+				<mp-icon wx:else icon="play" bindtap="play" size="{{24}}"></mp-icon>{{ comment.length }}s 语音评论
+			</view>
+		</view>
+    <view>
+      <button class="weui-btn"  bindtap="likeComment">收藏影评</button>
+      <button class="weui-btn"  bindtap="writeComment">写影评</button>
+    </view>
+    <mp-actionSheet bindactiontap="btnClick" show="{{showActionsheet}}" actions="{{groups}}"></mp-actionSheet>
+	</view>
+</view>
