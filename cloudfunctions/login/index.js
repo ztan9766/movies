@@ -5,7 +5,6 @@ const cloud = require('wx-server-sdk')
 
 // 初始化 cloud
 cloud.init({
-  // API 调用都保持和云函数当前所在环境一致
   env: cloud.DYNAMIC_CURRENT_ENV
 })
 
@@ -22,17 +21,23 @@ exports.main = async (event, context) => {
     openid: wxContext.OPENID
   }).get()
 
-  return new Promise((res, rej) => {
+  return new Promise((r, j) => {
     if (user.data.length === 0) {
+      const userData = {
+        avatar: event.avatarUrl,
+        name: event.nickName,
+        openid: wxContext.OPENID
+      }
       db.collection('users').add({
-        data: {
-          avatar: '',
-          name: '',
-          openid: wxContext.OPENID
-        }
+        data: userData
+      }).then(res => {
+        const result = Object.assign({}, res, userData)
+        r(result)
+      }).catch(err => {
+        j(err)
       })
     } else {
-      res('已有账户')
+      r(user.data[0])
     }
   })
 }

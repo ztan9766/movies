@@ -1,23 +1,30 @@
 // miniprogram/pages/mine/mine.js
+const app = getApp()
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    error: '',
     list: [],
     mineList: [],
     playingIndex: '',
     avatar: '../../static/user-unlogin.png',
-    checked: '1'
+    checked: '1',
+    userInfo: {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    const userInfo = JSON.parse(wx.getStorageSync('userInfo') || "{}")
+    this.setData({
+      userInfo 
+    })
     this.loadData()
-    this.loadMine()
   },
 
   onShow() {
@@ -33,7 +40,6 @@ Page({
    */
   onPullDownRefresh: function () {
     this.loadData()
-    this.loadMine()
   },
 
   /**
@@ -44,11 +50,18 @@ Page({
   },
 
   loadData() {
+    if (!this.data.userInfo || !this.data.userInfo._id) return
+    this.loadLike()
+    this.loadMine()
+  },
+
+  loadLike() {
     wx.cloud.callFunction({
-        name: 'like',
-        data: {},
+        name: 'like-list',
+        data: this.data.userInfo
       })
       .then(res => {
+        console.log(res)
         this.setData({
           list: res.result.list
         })
@@ -58,15 +71,14 @@ Page({
 
   loadMine() {
     wx.cloud.callFunction({
-        name: 'comment',
-        data: {
-          type: 3
-        },
+        name: 'comment-mine',
+        data: this.data.userInfo
       })
       .then(res => {
         this.setData({
           mineList: res.result.list
         })
+
       })
       .catch(console.error)
   },
@@ -123,5 +135,12 @@ Page({
     wx.navigateTo({
       url: '/pages/comment/detail/detail?id=' + e.currentTarget.dataset.commentId,
     })
+  },
+
+  onTapLogin(event) {
+    this.setData({
+      userInfo: event.detail.userInfo
+    })
+    this.loadData()
   }
 })

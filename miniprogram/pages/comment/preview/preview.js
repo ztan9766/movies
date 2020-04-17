@@ -38,9 +38,8 @@ Page({
 
   loadData() {
     wx.cloud.callFunction({
-        name: 'comment',
+        name: 'comment-detail',
         data: {
-          type: 2,
           id: this.data.id
         },
       })
@@ -69,6 +68,7 @@ Page({
   },
 
   back() {
+    console.log(this.data.id)
     wx.navigateTo({
       url: '/pages/comment/edit/edit?id=' + this.data.id,
     })
@@ -76,17 +76,19 @@ Page({
 
   publish() {
     wx.cloud.callFunction({
-      name: 'comment-action',
-      data: {
-        id: this.data.id,
-        status: '1'
-      },
-    })
-    .then(() => {
-      wx.navigateTo({
-        url: '/pages/comment/list/list?movieId=' + this.data.comment.movieId,
+        name: 'comment-update',
+        data: {
+          _id: this.data.id,
+          data: {
+            status: '1'
+          }
+        },
       })
-    })
-    .catch(console.error)
+      .then((res) => {
+        wx.navigateTo({
+          url: '/pages/comment/list/list?movieId=' + this.data.comment.movieId,
+        })
+      })
+      .catch(console.error)
   }
 })

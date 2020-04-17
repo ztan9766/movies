@@ -1,5 +1,8 @@
 <!--miniprogram/pages/mine/mine.wxml-->
-<view class="container">
+<view wx:if="{{!userInfo._id}}">
+  <login bindonLogin="onTapLogin"></login>
+</view>
+<view wx:else class="container">
 	<view class="title">
 		<radio-group class="radio-group" bindchange="radioChange">
 			<radio class="radio" value="1" checked="{{checked === '1'}}">

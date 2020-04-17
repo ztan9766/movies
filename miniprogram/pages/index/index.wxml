@@ -23,3 +23,4 @@
 		</navigator>
 	</view>
 </view>
+<mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>

@@ -3,12 +3,12 @@ const app = getApp()
 
 Page({
   data: {
+    error: '',
     recommandation: {},
     avatar: '../../static/user-unlogin.png'
   },
   onLoad: function () {
     this.loadData()
-    this.login()
   },
   onPullDownRefresh: function () {
     this.loadData()
@@ -16,15 +16,18 @@ Page({
   loadData() {
     // 随机拉取一个评论作为封面
     wx.cloud.callFunction({
-        name: 'comment',
-        data: {
-          type: 0
-        },
+        name: 'comment-random',
       })
       .then(res => {
-        this.setData({
-          recommandation: res.result.list[0]
-        })
+        if (res.result._id) {
+          this.setData({
+            recommandation: res.result
+          })
+        } else {
+          this.setData({
+            error: '获取推荐点评失败，请稍后重试'
+          })
+        }
       })
       .catch(console.error)
   },
@@ -41,15 +44,5 @@ Page({
         url: '/pages/comment/detail/detail?id=' + this.data.recommandation._id
       })
     }
-  },
-  login() {
-    wx.cloud.callFunction({
-      name: 'login',
-      data: {},
-    })
-    .then(res => {
-      console.log(res)
-    })
-    .catch(console.error)
   }
 })

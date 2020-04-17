@@ -18,7 +18,9 @@ Page({
         text: '音频',
         value: 1
       }
-    ]
+    ],
+    userInfo: {},
+    showLogin: false
   },
 
   /**
@@ -26,7 +28,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      id: options.id
+      id: options.id,
+      userInfo: JSON.parse(wx.getStorageSync('userInfo') || '{}')
     })
     this.loadData()
   },
@@ -48,9 +51,8 @@ Page({
 
   loadData() {
     wx.cloud.callFunction({
-        name: 'comment',
+        name: 'comment-detail',
         data: {
-          type: 2,
           id: this.data.id
         },
       })
@@ -86,20 +88,27 @@ Page({
   },
 
   likeComment() {
-    wx.cloud.callFunction({
-      name: 'like-action',
-      data: {
-        commentId: this.data.comment._id,
-        userId: this.data.comment.user[0]._id
-      },
-    })
-    .then(res => {
-      console.log(res)
-      wx.navigateTo({
-        url: '/pages/mine/mine',
+    if (this.data.userInfo && this.data.userInfo._id) {
+      wx.cloud.callFunction({
+          name: 'like-add',
+          data: {
+            commentId: this.data.comment._id,
+            userId: this.data.userInfo._id
+          },
+        })
+        .then(res => {
+          console.log(res)
+          wx.navigateTo({
+            url: '/pages/mine/mine',
+          })
+        })
+        .catch(console.error)
+    } else {
+      this.setData({
+        showLogin: true
       })
-    })
-    .catch(console.error)
+    }
+
   },
 
   close() {
@@ -113,5 +122,13 @@ Page({
       url: '/pages/comment/edit/edit?type=' + e.detail.value + '&movieId=' + this.data.comment.movieId,
     })
     this.close()
+  },
+
+  onTapLogin(event) {
+    this.setData({
+      userInfo: event.detail.userInfo,
+      showLogin: false
+    })
+    this.likeComment()
   }
 })

@@ -38,9 +38,8 @@ Page({
 
   loadData() {
     wx.cloud.callFunction({
-        name: 'movie',
+        name: 'movie-detail',
         data: {
-          type: 0,
           id: this.data.id
         },
       })

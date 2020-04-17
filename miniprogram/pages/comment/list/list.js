@@ -31,21 +31,28 @@ Page({
     this.innerAudioContext.destroy()
   },
 
+  onReachBottom() {
+    this.setData({
+      current: this.data.current + 1
+    })
+    this.loadData(this.data.movieId)
+  },
+
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
     this.setData({
-      current: 1
+      current: 1,
+      list: []
     })
     this.loadData(this.data.movieId)
   },
 
   loadData(movieId) {
     wx.cloud.callFunction({
-        name: 'comment',
+        name: 'comment-page',
         data: {
-          type: 1,
           movieId,
           pageSize: 10,
           current: this.data.current

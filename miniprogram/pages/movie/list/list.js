@@ -40,9 +40,8 @@ Page({
 
   loadData() {
     wx.cloud.callFunction({
-        name: 'movie',
+        name: 'movie-list',
         data: {
-          type: 1,
           pageSize: 10,
           current: this.data.current
         },

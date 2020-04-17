@@ -25,7 +25,7 @@ Page({
       type: options.type || '',
       id: options.id || ''
     })
-
+    console.log(options)
     if (this.data.id !== '') {
       this.loadComment()
     } else {
@@ -69,9 +69,8 @@ Page({
 
   loadData() {
     wx.cloud.callFunction({
-        name: 'movie',
+        name: 'movie-detail',
         data: {
-          type: 0,
           id: this.data.movieId
         },
       })
@@ -85,15 +84,14 @@ Page({
 
   loadComment() {
     wx.cloud.callFunction({
-        name: 'comment',
+        name: 'comment-detail',
         data: {
-          type: 3,
           id: this.data.id
         },
       })
       .then(res => {
         const _comment = res.result.list[0]
-
+        console.log(res)
         this.setData({
           movie: _comment.movie[0],
           textValue: _comment.description,
@@ -107,25 +105,17 @@ Page({
 
   bindFormSubmit(e) {
     const description = e.detail.value.textarea || ''
-    const {
-      recordTimer,
-      tempPath,
-      type,
-      movieId,
-      id
-    } = this.data
     const timestamp = new Date().getTime()
     const formData = {
-      length: recordTimer,
-      type,
-      description,
-      movieId,
-      _id: id
+      length: this.data.recordTimer,
+      type: this.data.type || this.data.movie.type,
+      movieId: this.data.movieId || this.data.movie._id,
+      description
     }
     // 如果录音地址没有被本地素材替代则不需要上传
-    if (type === '1' && tempPath.indexOf('cloud://') < 0) {
+    if (formData.type === '1' && this.data.tempPath.indexOf('cloud://') < 0) {
       wx.cloud.uploadFile({
-        filePath: tempPath,
+        filePath: this.data.tempPath,
         cloudPath: 'movies/records/' + timestamp + '.acc',
       }).then(res => {
         formData.src = res.fileID
@@ -175,9 +165,13 @@ Page({
   },
 
   handleSave(formData) {
+    const cloundFncName = this.data.id && this.data.id !== '' ? 'comment-update' : 'comment-add'
     wx.cloud.callFunction({
-        name: 'comment-action',
-        data: formData,
+        name: cloundFncName,
+        data: {
+          _id: this.data.id,
+          data: formData
+        },
       })
       .then(res => {
         console.log(res)

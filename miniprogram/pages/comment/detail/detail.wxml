@@ -1,5 +1,8 @@
 <!--miniprogram/pages/comment/detail/detail.wxml-->
-<view class="container">
+<view wx:if="{{showLogin}}">
+  <login bindonLogin="onTapLogin"></login>
+</view>
+<view wx:else class="container">
 	<view class="body">
 		<view class="cover">
 			<image mode="aspectFill" src="{{comment.movie[0].image}}"></image>
