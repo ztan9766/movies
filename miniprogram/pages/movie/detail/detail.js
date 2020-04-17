@@ -16,7 +16,9 @@ Page({
         text: '音频',
         value: 1
       }
-    ]
+    ],
+    userInfo: {},
+    showLogin: false
   },
 
   /**
@@ -24,7 +26,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      id: options.id
+      id: options.id,
+      userInfo: JSON.parse(wx.getStorageSync('userInfo') || '{}')
     })
     this.loadData()
   },
@@ -52,9 +55,16 @@ Page({
       .catch(console.error)
   },
   handleAdd() {
-    this.setData({
-      showActionsheet: true
-    })
+    if(this.data.userInfo && this.data.userInfo._id) {
+      this.setData({
+        showActionsheet: true
+      })
+    } else {
+      this.setData({
+        showLogin: true
+      })
+    }
+    
   },
   handleView() {
     if (this.data.movie) {
@@ -73,5 +83,13 @@ Page({
       url: '/pages/comment/edit/edit?type=' + e.detail.value + '&movieId=' + this.data.movie._id,
     })
     this.close()
+  },
+
+  onTapLogin(event) {
+    this.setData({
+      userInfo: event.detail.userInfo,
+      showLogin: false
+    })
+    this.handleAdd()
   }
 })
