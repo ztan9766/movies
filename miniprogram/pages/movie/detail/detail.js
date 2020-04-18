@@ -18,7 +18,9 @@ Page({
       }
     ],
     userInfo: {},
-    showLogin: false
+    showLogin: false,
+    hasComment: false,
+    commentId: ''
   },
 
   /**
@@ -40,6 +42,10 @@ Page({
   },
 
   loadData() {
+    this.loadMovie()
+    this.loadMine()
+  },
+  loadMovie() {
     wx.cloud.callFunction({
         name: 'movie-detail',
         data: {
@@ -47,15 +53,32 @@ Page({
         },
       })
       .then(res => {
-        console.log(res)
         this.setData({
           movie: res.result.data[0]
         })
       })
       .catch(console.error)
   },
+  loadMine() {
+    wx.cloud.callFunction({
+        name: 'comment-self',
+        data: {
+          movieId: this.data.id,
+          userId: this.data.userInfo._id
+        },
+      })
+      .then(res => {
+        if (res.result) {
+          this.setData({
+            hasComment: res.result.hasComment,
+            commentId: res.result.commentId || ''
+          })
+        }
+      })
+      .catch(console.error)
+  },
   handleAdd() {
-    if(this.data.userInfo && this.data.userInfo._id) {
+    if (this.data.userInfo && this.data.userInfo._id) {
       this.setData({
         showActionsheet: true
       })
@@ -64,7 +87,7 @@ Page({
         showLogin: true
       })
     }
-    
+
   },
   handleView() {
     if (this.data.movie) {
@@ -91,5 +114,11 @@ Page({
       showLogin: false
     })
     this.handleAdd()
+  },
+
+  handleComment() {
+    wx.navigateTo({
+      url: '/pages/comment/detail/detail?id=' + this.data.commentId,
+    })
   }
 })

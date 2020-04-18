@@ -91,5 +91,16 @@ Page({
     wx.navigateTo({
       url: '/pages/index/index',
     })
+  },
+
+  goDetail(e) {
+    const commentId = e.currentTarget.dataset.commentId
+
+    if (commentId) {
+      wx.navigateTo({
+        url: '/pages/comment/detail/detail?id=' + commentId,
+      })
+    }
+
   }
 })

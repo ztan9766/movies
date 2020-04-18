@@ -3,7 +3,6 @@ const app = getApp()
 
 Page({
   data: {
-    error: '',
     recommandation: {},
     avatar: '../../static/user-unlogin.png'
   },
@@ -19,13 +18,9 @@ Page({
         name: 'comment-random',
       })
       .then(res => {
-        if (res.result._id) {
+        if (res.result && res.result._id) {
           this.setData({
             recommandation: res.result
-          })
-        } else {
-          this.setData({
-            error: '获取推荐点评失败，请稍后重试'
           })
         }
       })

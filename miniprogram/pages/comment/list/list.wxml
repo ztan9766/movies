@@ -1,19 +1,24 @@
 <view class="container">
-	<view wx:for="{{ list }}" wx:key="_id" class="comment">
-		<view class="user">
-			<image mode="aspectFill" src="{{item.user[0].avatar || avatar}}"></image> {{item.user[0].name}}
-		</view>
-		<view class="content">
-			<view wx:if="{{item.type === '0'}}">
-				{{ item.description }}
+	<view wx:if="{{list.length > 0}}">
+		<view wx:for="{{ list }}" wx:key="_id" class="comment" data-comment-id="{{item._id}}" bindtap="goDetail">
+			<view class="user">
+				<image mode="aspectFill" src="{{item.user[0].avatar || avatar}}"></image> {{item.user[0].name}}
 			</view>
-			<view wx:if="{{item.type === '1'}}">
-				<view>
-					<mp-icon wx:if="{{ playingIndex === index }}" bindtap="pause" icon="pause" size="{{24}}"></mp-icon>
-					<mp-icon wx:else icon="play" data-index="{{ index }}" bindtap="play" size="{{24}}"></mp-icon> 语音评论
+			<view class="content">
+				<view wx:if="{{item.type === '0'}}">
+					{{ item.description }}
+				</view>
+				<view wx:if="{{item.type === '1'}}">
+					<view>
+						<mp-icon wx:if="{{ playingIndex === index }}" bindtap="pause" icon="pause" size="{{24}}"></mp-icon>
+						<mp-icon wx:else icon="play" data-index="{{ index }}" bindtap="play" size="{{24}}"></mp-icon> 语音评论
+					</view>
 				</view>
 			</view>
 		</view>
+	</view>
+	<view wx:else>
+		<text>还没有人点评过，快来占个楼吧~</text>
 	</view>
 	<view class="footer">
 		<view class="footer-main" bindtap="backHome">回到首页</view>

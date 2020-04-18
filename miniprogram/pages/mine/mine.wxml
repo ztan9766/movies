@@ -1,6 +1,6 @@
 <!--miniprogram/pages/mine/mine.wxml-->
 <view wx:if="{{!userInfo._id}}">
-  <login bindonLogin="onTapLogin"></login>
+	<login bindonLogin="onTapLogin"></login>
 </view>
 <view wx:else class="container">
 	<view class="title">
@@ -14,49 +14,55 @@
 		</radio-group>
 	</view>
 	<view class="likes" wx:if="{{checked === '1'}}">
-		<view wx:for="{{list}}" wx:key="_id" class="comment">
-			<view class="cover">
-				<image mode="aspectFill" src="{{item.movie[0].image}}"></image>
-			</view>
-			<view class="info">
-				<view class="title" data-comment-id="{{item.comment[0]._id}}" bindtap="goDetail">{{ item.movie[0].title }}</view>
-				<view class="content">
-					<view wx:if="{{item.comment[0].type === '0'}}">
-						{{ item.comment[0].description }}
-					</view>
-					<view wx:if="{{item.comment[0].type === '1'}}">
-						<view>
-							<mp-icon wx:if="{{ playingIndex === index }}" bindtap="pause" icon="pause" size="{{24}}"></mp-icon>
-							<mp-icon wx:else icon="play" data-index="{{ index }}" bindtap="play" size="{{24}}"></mp-icon> 语音评论
+		<view wx:if="{{ list.length === 0}}">无收藏的影评</view>
+		<view wx:else>
+			<view wx:for="{{list}}" wx:key="_id" class="comment" data-comment-id="{{item.commentId}}" bindtap="goDetail">
+				<view class="cover">
+					<image mode="aspectFill" src="{{item.movie[0].image}}"></image>
+				</view>
+				<view class="info">
+					<view class="title" data-comment-id="{{item.comment[0]._id}}" bindtap="goDetail">{{ item.movie[0].title }}</view>
+					<view class="content">
+						<view wx:if="{{item.comment[0].type === '0'}}">
+							{{ item.comment[0].description }}
+						</view>
+						<view wx:if="{{item.comment[0].type === '1'}}">
+							<view>
+								<mp-icon wx:if="{{ playingIndex === index }}" bindtap="pause" icon="pause" size="{{24}}"></mp-icon>
+								<mp-icon wx:else icon="play" data-index="{{ index }}" bindtap="play" size="{{24}}"></mp-icon> 语音评论
+							</view>
 						</view>
 					</view>
-				</view>
-				<view class="user">
-					<image mode="aspectFill" src="{{item.user[0].avatar || avatar}}"></image> {{item.user[0].name}}
+					<view class="user">
+						<image mode="aspectFill" src="{{item.user[0].avatar || avatar}}"></image> {{item.user[0].name}}
+					</view>
 				</view>
 			</view>
 		</view>
 	</view>
 	<view class="mine" wx:if="{{checked === '2'}}">
-		<view wx:for="{{mineList}}" wx:key="_id" class="comment">
-			<view class="cover">
-				<image mode="aspectFill" src="{{item.movie[0].image}}"></image>
-			</view>
-			<view class="info">
-				<view class="title" data-comment-id="{{item._id}}" bindtap="goDetail">{{ item.movie[0].title }}</view>
-				<view class="content">
-					<view wx:if="{{item.type === '0'}}">
-						{{ item.description }}
-					</view>
-					<view wx:if="{{item.type === '1'}}">
-						<view>
-							<mp-icon wx:if="{{ playingIndex === item._id }}" bindtap="pause" icon="pause" size="{{24}}"></mp-icon>
-							<mp-icon wx:else icon="play" data-index="{{ item._id }}" bindtap="playMine" size="{{24}}"></mp-icon> 语音评论
+		<view wx:if="{{ mineList.length === 0}}">还没有发表任何影评</view>
+		<view wx:else>
+			<view wx:for="{{mineList}}" wx:key="_id" class="comment">
+				<view class="cover">
+					<image mode="aspectFill" src="{{item.movie[0].image}}"></image>
+				</view>
+				<view class="info">
+					<view class="title" data-comment-id="{{item._id}}" bindtap="goDetail">{{ item.movie[0].title }}</view>
+					<view class="content">
+						<view wx:if="{{item.type === '0'}}">
+							{{ item.description }}
+						</view>
+						<view wx:if="{{item.type === '1'}}">
+							<view>
+								<mp-icon wx:if="{{ playingIndex === item._id }}" bindtap="pause" icon="pause" size="{{24}}"></mp-icon>
+								<mp-icon wx:else icon="play" data-index="{{ item._id }}" bindtap="playMine" size="{{24}}"></mp-icon> 语音评论
+							</view>
 						</view>
 					</view>
-				</view>
-				<view class="user">
-					<image mode="aspectFill" src="{{item.user[0].avatar || avatar}}"></image> {{item.user[0].name}}
+					<view class="user">
+						<image mode="aspectFill" src="{{item.user[0].avatar || avatar}}"></image> {{item.user[0].name}}
+					</view>
 				</view>
 			</view>
 		</view>

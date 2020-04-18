@@ -1,6 +1,6 @@
 <!--miniprogram/pages/movie/detail/detail.wxml-->
 <view wx:if="{{showLogin}}">
-  <login bindonLogin="onTapLogin"></login>
+	<login bindonLogin="onTapLogin"></login>
 </view>
 <view wx:else class="container">
 	<view class="body">
@@ -10,7 +10,8 @@
 		<view class="title">{{ movie.title }}</view>
 		<view class="description">{{ movie.description }}</view>
 		<view class="action">
-			<button class="weui-btn" bindtap="handleAdd">添加影评</button>
+			<button wx:if="{{ !hasComment }}" class="weui-btn" bindtap="handleAdd">添加影评</button>
+			<button wx:else class="weui-btn" bindtap="handleComment">我的影评</button>
 			<button class="weui-btn" bindtap="handleView">查看影评</button>
 		</view>
 	</view>

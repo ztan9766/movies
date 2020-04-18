@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="container">
 	<view class="body">
-		<view class="recommandation">
+		<view wx:if="{{recommandation && recommandation._id}}" class="recommandation">
 			<view class="cover">
 				<image mode="aspectFill" bindtap="handleTapCover" src="{{recommandation.movie[0].image}}"></image>
 			</view>
@@ -13,7 +13,11 @@
 				{{ recommandation.user[0].name }}给你推荐了部电影
 			</view>
 		</view>
+		<view wx:else>
+			<text>还没有任何评论，快去留下第一条吧</text>
+		</view>
 	</view>
+
 	<view class="footer">
 		<navigator class="footer-item" url="/pages/movie/list/list">
 			<mp-icon icon="like" size="{{24}}"></mp-icon>热门
@@ -23,4 +27,3 @@
 		</navigator>
 	</view>
 </view>
-<mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
