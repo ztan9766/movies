@@ -22,7 +22,8 @@
 		</view>
     <view>
       <button class="weui-btn"  bindtap="likeComment">收藏影评</button>
-      <button class="weui-btn"  bindtap="writeComment">写影评</button>
+      <button wx:if="{{ !hasComment }}" class="weui-btn" bindtap="handleAdd">添加影评</button>
+			<button wx:else class="weui-btn" bindtap="handleComment">我的影评</button>
     </view>
     <mp-actionSheet bindactiontap="btnClick" show="{{showActionsheet}}" actions="{{groups}}"></mp-actionSheet>
 	</view>
